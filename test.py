@@ -45,3 +45,31 @@ class GridWorldState():
     def __lt__(self, other):
         return self.total_cost < other.total_cost
 
+
+    
+    
+    
+    
+    fringe = queue.PriorityQueue()
+    fringe.put(start)
+    path = {start.id: []} # a dict of `vertex: actions`
+
+    explored = {start.id: start.cost} # a dict of `vertex: cost_so_far`
+    reachedEnd = False
+    while not fringe.empty():
+        current = fringe.get()
+        if current==goal:
+            print ("reached the end, jolly good")
+            print (path[current.id])
+            print (explored[current.id])
+            break
+        for action in actionset: # "simulate" executing actions
+            neighbor = current.step(action)
+            cost_so_far = explored[current.id] + current.cost
+            # neighbour not explored or update the neighbour
+            if (neighbor.id not in explored) or (cost_so_far < explored[neighbor.id]):
+                explored[neighbor.id] = cost_so_far
+                path[neighbor.id] = path[current.id] + [action]
+                vfp = cost_so_far + neighbor.estimate_cost_to_go(goal)
+                neighbor.total_cost = vfp
+                fringe.put(neighbor)
