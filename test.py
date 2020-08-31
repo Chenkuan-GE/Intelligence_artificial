@@ -1,4 +1,6 @@
-ord, cost, obstacle_coords = [], cost_map = []):
+class GridWorldState():
+    
+    def __init__(self, coord, cost, obstacle_coords = [], cost_map = []):
         self.ncol = self.nrow = 9
         self.id = coord
         self.coord = coord 
